@@ -130,24 +130,96 @@
 .columns {
     display: flex;
     flex-direction: row;
+    padding-bottom: 80px;
 }
 
 .categorical {
-    margin-left: 450px;
+    width: 45%;
+    margin: 50px 50px 0 auto;
 }
 
-.numerical{
-    flex-direction: row;
+.numerical {
+    width: 45%;
+    margin-top: 50px;
+}
+
+.model-parameters-container {
     display: flex;
-}
-
-.numericalItems {
-    width: 400px;
-    background: green;
-    height: auto;
     flex-direction: row;
-    display: flex;
-    flex-wrap: wrap;
-
 }
+
+.batch-size {
+    width: 45%;
+}
+
+.batch-size input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.learning-rate {
+    width: 45%;
+    margin: 0 50px 0 auto;
+}
+
+.learning-rate input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.batch-size input:focus {
+    outline: none;
+    border: 2px solid #2684FF;
+}
+
+.learning-rate input:focus {
+    outline: none;
+    border: 2px solid #2684FF;
+}
+
+.epochs {
+    width: 45%;
+}
+
+.epochs input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.epochs input:focus {
+    outline: none;
+    border: 2px solid #2684FF;
+}
+
+.start-training {
+    margin: 50px 0 0 50px;
+    padding-bottom: 80px;
+}
+
+.start-training button {
+    text-align: center;
+    border-radius: 5px;
+    background-color: #5D8AA8;
+    cursor: pointer;
+    margin: 0;
+    width: 30%;
+}
+
+.start-training button:hover {
+    background-color: #49678D;
+}
+
+
 

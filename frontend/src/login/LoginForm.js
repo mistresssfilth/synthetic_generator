@@ -53,7 +53,7 @@ export async function handleLogin(email, password, setErrorMessage) {
         if (response === 200) {
             localStorage.setItem('authToken', response.token);
 
-            window.location.href = '/workspaces';
+            window.location.href = '/files';
             console.error('Login was successful, no token provided in the response.');
         } else {
             console.error('Login was unsuccessful, no token provided in the response.');

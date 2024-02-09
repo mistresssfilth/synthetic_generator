@@ -1,12 +1,11 @@
-from base64 import encode, decode
 from uuid import UUID
 
 from bcrypt import checkpw, gensalt, hashpw
-from oauthlib.oauth2.rfc6749.errors import InvalidTokenError
+from jwt import InvalidTokenError, decode, encode
 
-from backend.db.entity.user import User
-from backend.db.repository.user_repository import UserRepository
-from backend.exceptions.exceptions import AlreadyExistException, UserNotFoundException, InvalidCredentialsException
+from project.backend.db.entity.user import User
+from project.backend.db.repository.user_repository import UserRepository
+from project.backend.exceptions.exceptions import AlreadyExistException, UserNotFoundException, InvalidCredentialsException
 
 
 class AuthService:

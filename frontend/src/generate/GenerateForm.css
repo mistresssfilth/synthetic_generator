@@ -1,0 +1,84 @@
+* {
+    box-sizing: border-box;
+}
+
+.page {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background: #fafafa;
+    flex-direction: column;
+}
+
+.header {
+    width: 100vw;
+    height: 8%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+.navigation {
+    display: flex;
+    width: 100%;
+}
+
+.rows, .file-select {
+    width: 45%;
+    margin: 50px 0 0 50px;
+}
+
+.rows input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.rows input:focus {
+    outline: none;
+    border: 2px solid #2684FF;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.start-generate {
+    margin: 50px 0 0 50px;
+    padding-bottom: 80px;
+}
+
+.start-generate button {
+    text-align: center;
+    border-radius: 5px;
+    background-color: #5D8AA8;
+    cursor: pointer;
+    margin: 0;
+    width: 300px;
+}
+
+.start-generate button:hover {
+    background-color: #49678D;
+}
+
+.download{
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.download button{
+    text-align: center;
+    border-radius: 5px;
+    background-color: #5D8AA8;
+    cursor: pointer;
+    margin: 0;
+    width: 30%;
+}
+
+.download button:hover{
+    background-color: #49678D;
+}

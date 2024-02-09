@@ -3,7 +3,6 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
 import app_db
-from backend.routes import file
 
 
 def create_app(db_uri=app_db.SQLALCHEMY_DATABASE_URI):
@@ -15,6 +14,7 @@ def create_app(db_uri=app_db.SQLALCHEMY_DATABASE_URI):
         db = SQLAlchemy(app)
         app.db = db
 
+        from routes import file
         from routes import auth
         from db.model import models
 

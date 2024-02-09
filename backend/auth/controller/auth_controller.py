@@ -1,5 +1,5 @@
-from backend.auth.service.auth_service import AuthService
-from backend.db.entity.user import User
+from project.backend.auth.service.auth_service import AuthService
+from project.backend.db.entity.user import User
 
 
 class AuthController:

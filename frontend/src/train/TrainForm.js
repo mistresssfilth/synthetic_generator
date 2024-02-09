@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import './RootForm.css';
+import './TrainForm.css';
 import CSVDataTable from "./CSVDataTable";
-
+import Select from 'react-select';
 
 const API_BASE_URL = 'http://localhost:5000';
 
-function Root() {
+function Train() {
     const [csvData, setCsvData] = useState([]);
     const [email, setEmail] = useState("Anonim");
     const [filename, setFilename] = useState("cardio_train.csv")
@@ -16,13 +16,13 @@ function Root() {
 
     const [categorical, setCategorical] = useState([]);
     const [selectedCategorical, setSelectedCategorical] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
 
+    const [batchSize, setBatchSize] = useState(500);
+    const [learningRate, setLearningRate] = useState(0.05);
+    const [epochs, setEpochs] = useState(100);
 
     const handleFileChange = async (event) => {
             const file = event.target.files[0];
-            setFilename("file.name")
-
             const formData = new FormData();
             formData.append('file', file);
 
@@ -105,30 +105,30 @@ function Root() {
             });
     }, []);
 
-    const handleSelectChange = (event) => {
-        setSelectedNumerical(current => [...current, event.target.value]);
-    };
+    const handleStartTraining = (event) => {
+        const data = {
+            "filename": "cardio_train.csv",
+            "numerical": selectedNumerical,
+            "categorical": selectedCategorical,
+            "batchSize": batchSize,
+            "learningRate": learningRate,
+            "epochs": epochs
+        };
+        const config = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
 
-    function NumberDiv({number}) {
-        return (
-            <div
-                style={{
-                    backgroundColor: 'red',
-                    padding: '5px',
-                    margin: '5px',
-                    borderRadius: '3px',
-                    width: 'fit-content',
-                    color: 'white'
-
-                }}
-            >
-                {number}
-            </div>
-        );
-    }
-
-    const handleClick = () => {
-        setIsOpen(!isOpen);
+        fetch(`${API_BASE_URL}/train`, config)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     };
 
     if (error) {
@@ -139,10 +139,10 @@ function Root() {
         <div className="page">
             <div className="header">
                 <div className="navigation">
-                    <div className="train-generator">
+                    <div className="train-generator" onClick={() => goToTrain()}>
                         <p>Обучить генератор</p>
                     </div>
-                    <div className="generate-dataset">
+                    <div className="generate-dataset" onClick={() => goToGenerate()}>
                         <p>Сгенерировать датасет</p>
                     </div>
                 </div>
@@ -171,42 +171,79 @@ function Root() {
             <div className="properties-container">
                 <div className="columns">
                     <div className="numerical">
-                        <p onClick={handleClick} >Выберите числовые колонки</p>
-                        <label htmlFor="numerical"></label>
-                        {isOpen &&
-                        <select id="numerical" multiple={true} value={selectedNumerical}
-                                onChange={handleSelectChange}>
-                            {numerical.map((option, index) => (
-                                <option key={index} value={option}>{option}</option>
-                            ))}
-                        </select>
-                        }
-
-                        <div className="numericalItems">
-                            {selectedNumerical.map((number, index) => (
-                                <NumberDiv number={number} key={index}/>
-                            ))}
-                        </div>
+                        <p>Выберите числовые колонки</p>
+                        <Select id="numerical"
+                                isMulti
+                                options={numerical.map(t => ({label: t, value: t}))}
+                                onChange={([selected]) => {
+                                    setSelectedNumerical(selected)
+                                }}
+                        >
+                        </Select>
                     </div>
                     <div className="categorical">
                         <p>Выберите категориальные колонки</p>
-                        <label htmlFor="categorical"></label>
-                        <select id="categorical" value={selectedCategorical}
-                                onChange={(e) => setSelectedCategorical(e.target.value)}>
-                            <option value=""></option>
-                            {categorical.map((option, index) => (
-                                <option key={index} value={option}>{option}</option>
-                            ))}
-                        </select>
+                        <Select id="categorical"
+                                isMulti
+                                options={categorical.map(t => ({label: t, value: t}))}
+                                onChange={([selected]) => {
+                                    setSelectedCategorical(selected)
+                                }}
+                        >
+                        </Select>
                     </div>
                 </div>
+                <div className="model-parameters">
+                    <p>Выберите параметры модели</p>
+                    <div className="model-parameters-container">
+                        <div className="batch-size">
+                            <p>Batch size</p>
+                            <input
+                                type="text"
+                                value={batchSize}
+                                onChange={(e) => setBatchSize(e.target.value)}
+                            />
+                        </div>
+                        <div className="learning-rate">
+                            <p>Learning rate</p>
+                            <input
+                                type="text"
+                                value={learningRate}
+                                onChange={(e) => setLearningRate(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="training-parameters">
+                    <div className="epochs">
+                        <p>Epochs</p>
+                        <input
+                            type="text"
+                            value={epochs}
+                            onChange={(e) => setEpochs(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="start-training">
+                {csvData.length > 0 ?
+                    <button type="button" onClick={handleStartTraining}>Запустить обучение</button>
+                    : <p>Для обучения модели необходимо загрузить csv файл.</p>}
             </div>
         </div>
     );
 }
 
-export default Root;
+export default Train;
 
 function goToProfile() {
     window.location.href = '/profile';
+}
+
+function goToTrain() {
+    window.location.href = '/train';
+}
+
+function goToGenerate() {
+    window.location.href = '/generate';
 }

@@ -1,7 +1,9 @@
 from flask import jsonify, Blueprint, make_response, request
 
-from backend.auth.controller.auth_controller import AuthController
-from backend.exceptions.exceptions import InvalidCredentialsException, AlreadyExistException
+from project.backend.auth.controller.auth_controller import AuthController
+from project.backend.exceptions.exceptions import InvalidCredentialsException, AlreadyExistException
+from project.backend.utils import token_required
+from project.backend.utils.token_required import token_required, get_user_by_token
 
 AUTH_REQUEST_API = Blueprint('request_auth_api', __name__)
 
@@ -15,6 +17,7 @@ def get_blueprint():
 
 class AlreadyExistsException:
     pass
+
 
 @AUTH_REQUEST_API.route('/')
 def hello():
@@ -58,3 +61,16 @@ def logout():
     response = make_response()
     response.delete_cookie('token')
     return response
+
+
+@AUTH_REQUEST_API.route('/profile', methods=['GET'])
+@token_required
+def get_user_list():
+    user = get_user_by_token()
+
+    return jsonify(
+        {
+            "id": user.get_id(),
+            "email": user.email
+        }
+    ), 200
